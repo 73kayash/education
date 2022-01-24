@@ -12,7 +12,9 @@ public class Main
 	    
 	    int num1;
 	    int num2;
-	    ArraySum Num1 = new ArraySum(4752);
+	    ArraySum Num1 = new ArraySum(num1=2);
+	    ArraySum Num2 = new ArraySum(num2=2);
+	    ArraySum Num3 = new ArraySum(Num1,Num2);
 	}
 }
 
@@ -25,10 +27,21 @@ class ArraySum {
     public ArraySum(int number){
         myNumber = number;
         tens = 1;
-        int sizeArray = 0;
+        sizeArray = 0;
         countTen();
         array = new int[sizeArray];
         createArray();
+        printArray(array);
+        
+    }
+    
+    private void printArray(int[] arrayF){
+        int length = arrayF.length;
+        for(int i=0;i<length;i++){
+            System.out.print(arrayF[i] + " ");
+            
+        }
+        System.out.println(" ");
     }
     
     private void countTen(){
@@ -50,12 +63,40 @@ class ArraySum {
     public ArraySum(ArraySum number1, ArraySum number2){
         int ten1 = number1.sizeArray;
         int ten2 = number2.sizeArray;
-        
+        int[] arr1 = number1.array;
+        int[] arr2 = number2.array;
+        int[] resArr;
         if(ten1 >= ten2){
-               
-        }else {
             
+                resArr = Sum(arr1,arr2,ten1,ten2);    
+        }else {
+            resArr = Sum(arr2,arr1,ten2,ten1);
         }
+        
+        if(resArr[0] == 0){
+            array = new int[resArr.length - 1];
+            for(int i = 0;i<array.length;i++){
+                array[i]=resArr[i+1];
+            }
+        }else array = resArr;
+        
+        printArray(array);
+    }
+    
+    private int[] Sum(int[] arr1, int[] arr2, int ten1, int ten2){
+        
+        int[] resArr = new int[ten1+1];
+        resArr[0] = 0;
+            for(int j=1;j<ten1;j++){
+                int i = j-1;
+                if(ten2-ten1+i<=0){
+                    if(arr1[i]+arr2[i] > 10){
+                        resArr[j] = arr1[i]+arr2[i]-10;
+                        resArr[j-1]++;
+                    }else resArr[j] = arr1[i]+arr2[i];
+                }else resArr[j] = arr1[i];
+            }
+        return resArr;
     }
 }
 
@@ -112,3 +153,4 @@ class ArrayForSort
         ArrayPrint(pasteArray, sizeArray);
     }
 }
+
