@@ -1,0 +1,114 @@
+public class Main
+{
+	public static void main(String[] args) {
+	    final int  size;
+		//ArrayForSort myClass = new ArrayForSort(size = 5); //Создание и заполнение массива
+		//myClass.MainArrayPrint();                   //Вывод исходного массива
+		//myClass.BubbleSorter();                     //Сортировка пузырьковым методом и вывод в консоль
+		//myClass.SortPaste();                            //Сортировка методом вставки
+		//Почему то, после выполнения сортировки исходый массив меняется в след за сортировкой, хотя в коде я его не трогаю, Почему?
+	
+	    //myClass.MainArrayPrint();
+	    
+	    int num1;
+	    int num2;
+	    ArraySum Num1 = new ArraySum(4752);
+	}
+}
+
+class ArraySum {
+    final int[] array;
+    private int sizeArray;
+    private int myNumber;
+    private int tens;
+    
+    public ArraySum(int number){
+        myNumber = number;
+        tens = 1;
+        int sizeArray = 0;
+        countTen();
+        array = new int[sizeArray];
+        createArray();
+    }
+    
+    private void countTen(){
+        while (myNumber / tens > 0){
+            sizeArray++;
+            tens*=10;
+        }
+        tens/=10;
+    }
+    
+    private void createArray(){
+        for(int i=0;i<sizeArray;i++){
+            array[i] = myNumber / tens;
+            myNumber -= array[i]*tens;
+            tens/=10;
+        }
+    }
+    
+    public ArraySum(ArraySum number1, ArraySum number2){
+        int ten1 = number1.sizeArray;
+        int ten2 = number2.sizeArray;
+        
+        if(ten1 >= ten2){
+               
+        }else {
+            
+        }
+    }
+}
+
+class ArrayForSort
+{
+    final int[] array;
+    private int sizeArray;
+    
+    public ArrayForSort(int size){ //Конструктор класса, создаем и заполняем массив
+        array = new int[size];
+        sizeArray = size;
+        for (int i = 0; i<size; i++){
+            array[i] = (int)(Math.random()*100);
+        }
+    }
+    
+    private void ArrayPrint(int[] arrayPrint, int size){  //Вывод массива в консоль
+        for (int i = 0; i < sizeArray; i++) {
+            System.out.print(arrayPrint[i] + " ");
+        }
+        System.out.println(" ");
+    }
+    
+    public void MainArrayPrint(){  //Вывод исходного массива
+        ArrayPrint(array, sizeArray);
+    }
+    
+    public void BubbleSorter(){                                 //МЕТОД ПУЗЫРЬКОВОЙ СОРТИРОВКИ
+        int[] bubbleArray = array;
+        ArrayPrint(bubbleArray,sizeArray);
+        for (int out = sizeArray - 1; out >= 1; out--){         //Внешний цикл
+            for (int in = 0; in < out; in++){                   //Внутренний цикл
+                if(bubbleArray[in] > bubbleArray[in + 1]){       //Если порядок элементов нарушен
+                    int temp = bubbleArray[in];
+                    bubbleArray[in] = bubbleArray[in+1];
+                    bubbleArray[in+1] = temp;
+                }
+            }
+        }
+        ArrayPrint(bubbleArray, sizeArray);                     //Вывод результата
+    }
+    
+    public void SortPaste(){                                    //Сортировка методом вставки
+        int[] pasteArray = array;                               //копируем исходный массив
+        for(int i =0; i<sizeArray;i++){
+            int element = pasteArray[i];
+            int j = i;
+            while (j>0 && pasteArray[j-1] >element){
+                pasteArray[j] = pasteArray[j-1];
+                j--;
+            }
+            pasteArray[j] = element;
+        }
+        ArrayPrint(pasteArray, sizeArray);
+    }
+}
