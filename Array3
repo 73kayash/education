@@ -1,0 +1,81 @@
+public class Main
+{
+	public static void main(String[] args){
+	
+	//cardOnHand = new int[5][2];
+	Card cardOnHand = new Card();
+    
+	
+	HashMap<Integer, String> passportsAndNames = new HashMap<Integer,String>();
+	
+	passportsAndNames.put(212133, "Лидия Аркадьевна Бубликова");
+       passportsAndNames.put(162348, "Иван Михайлович Серебряков");
+       passportsAndNames.put(8082771, "Дональд Джон Трамп");
+       System.out.println(passportsAndNames);
+	}
+}
+
+class Card{
+    int[][] cards = new int[5][2];
+    
+    public Card(){
+        
+        cards = distribute();
+        printHand(cards);
+        printCombo(cards);
+    }
+    
+    void printCombo(int[][] cards){
+        //ArrayList<int[]> combination = new ArrayList<int[]>();
+        //Map<Integer, Integer> counter = new HashMap<>();
+        /*for (int x : cards) {
+            int newValue = counter.getOrDefault(x[0], 0) + 1;
+            counter.put(x[0], newValue);
+        }*/
+
+        //System.out.println(counter);
+    }
+    
+    void printHand(int[][] cards){
+        String[] value = {"2","3","4","5","6","7","8","9","10","Валет", "Дама", "Король", "Туз"};
+        String[] color = {"Бубны","Червей","Треф","Пик"};
+        
+        for(int i=0;i<5;i++){
+            System.out.println(value[cards[i][0]-2] + " " + color[cards[i][1]-1]);
+        }
+    }
+    
+    int[][] distribute(){
+        int[][] cards = new int[5][2];
+        for (int i = 0; i<5; i++){
+            boolean check = false;
+            cards[i] = randomCard();
+            while (!check){
+                check = true;
+                for(int j=0; j<i; j++){
+                    if(cards[j][0] == cards[i][0]){
+                        if(cards[j][1] == cards[i][1]){
+                            cards[i] = randomCard();
+                            check = false;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return cards;
+    }
+    
+    int[] randomCard (){
+        int[] card = new int[2];
+        card[0] = random(2,14);
+        card[1] = random(1,4);
+        
+        return card;
+    }
+    
+    int random(int min, int max){
+        return (int)(( Math.random() * (max-min) ) + min);
+    }
+}
+
