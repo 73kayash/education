@@ -1,1 +1,72 @@
+package com.company;
 
+public class Main {
+
+    public static void main(String[] args) {
+        Plata asusPrime = new Plata("ASUS","PRIME");
+        Plata gigabyteB450M = new Plata("Gygabyte", "B450M");
+        Plata intelZ690 = new Plata("Intel", "Z690");
+        Corpus monoblock = new Corpus("Алюминий","Компактный","Серебро");
+        Corpus gameBlock = new Corpus("Сталь","Большой","Черный, с подсветкой");
+        Corpus schoolBlock = new Corpus("Пластик", "Средний", "Белый");
+
+
+        Computer officePC = new Computer(monoblock,gigabyteB450M);
+        Computer schoolPC = new Computer(schoolBlock,asusPrime);
+        Computer gamePC = new Computer(gameBlock, intelZ690);
+
+        officePC.print();
+        schoolPC.print();
+        gamePC.print();
+
+
+    }
+}
+
+class Computer{                                             //класс готового компьютера
+    private final Corpus corpus;
+    private final Plata plata;
+
+    public Computer(Corpus corpus, Plata plata){            //конструктор класса
+        this.corpus = corpus;
+        this.plata = plata;
+    }
+
+    void print(){                                                         //Вывод на экран
+        System.out.println("Компьютер состоит из комплектующих:");
+        corpus.print();
+        plata.print();
+        System.out.println();
+        System.out.println();
+    }
+}
+
+class Corpus{                                                   //класс корпуса
+    private final String material;
+    private final String size;
+    private final String color;
+
+    public Corpus(String material, String size, String color){
+        this.material = material;
+        this.size = size;
+        this.color = color;
+    }
+
+    void print(){
+        System.out.println("Материал корпуса " + material + ", " + size + " размер, цвет " + color);
+    }
+
+}
+class Plata{                                                      //класс платы
+    private final String manufacter;
+    private final String model;
+
+    public Plata(String manufacter, String model) {
+        this.manufacter = manufacter;
+        this.model = model;
+    }
+
+    void print(){
+        System.out.println("Использована плата от производителя " + manufacter + ", модель " + model);
+    }
+}
