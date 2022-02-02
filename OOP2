@@ -1,0 +1,145 @@
+package com.company;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Plata asusPrime = new Plata("ASUS","PRIME");
+        Plata gigabyteB450M = new Plata("Gygabyte", "B450M");
+        Plata intelZ690 = new Plata("Intel", "Z690");
+        Corpus monoblock = new Corpus("Алюминий","Компактный","Серебро");
+        Corpus gameBlock = new Corpus("Сталь","Большой","Черный, с подсветкой");
+        Corpus schoolBlock = new Corpus("Пластик", "Средний", "Белый");
+
+
+        PC schoolPC = new PC(monoblock,asusPrime, false);
+        PC gamePC = new PC(gameBlock,gigabyteB450M, true);
+
+        Laptop officeLap = new Laptop(schoolBlock,intelZ690,7);
+        Laptop gameLap = new Laptop(gameBlock,gigabyteB450M, 10);
+
+        schoolPC.print();
+        gamePC.print();
+        officeLap.print();
+        gameLap.print();
+
+        System.out.println(schoolPC.toString());
+        System.out.println(gameLap.toString());
+
+
+    }
+}
+
+class Laptop extends Computer{
+    private final Corpus corpus;
+    private final Plata plata;
+    private final int screenSize;
+
+    public Laptop(Corpus corpus, Plata plata, int screenSize) {
+        super(corpus, plata);
+        this.corpus = corpus;
+        this.plata = plata;
+        this.screenSize = screenSize;
+    }
+    @Override
+    public String toString(){
+        String result = "Ноутбук " + plata.manufacter + " " + plata.model;
+        return result;
+    }
+
+    @Override
+    void print(){
+        System.out.println("Ноутбук состоит из комплектующих:");
+        corpus.print();
+        plata.print();
+        System.out.println("Диагональ экрана: " + screenSize);
+        System.out.println();
+        System.out.println();
+    }
+
+}
+class PC extends Computer{
+    private final Corpus corpus;
+    private final Plata plata;
+    private boolean dvd;
+
+    public PC(Corpus corpus, Plata plata, boolean dvd) {
+        super(corpus, plata);
+        this.corpus = corpus;
+        this.plata = plata;
+        this.dvd = dvd;
+    }
+
+    @Override
+    public String toString(){
+        String result = "Cистемный блок " + plata.manufacter + " " + plata.model;
+        return result;
+    }
+
+    private String printDvd(){
+        if (dvd)
+            return "есть";
+        else
+            return "нет";
+    }
+
+    @Override
+    void print(){
+        System.out.println("Системный блок состоит из комплектующих:");
+        corpus.print();
+        plata.print();
+        System.out.println("Наличие дисковода: " + printDvd());
+        System.out.println();
+        System.out.println();
+    }
+
+}
+
+
+class Computer{
+    private final Corpus corpus;
+    private final Plata plata;
+
+    public Computer(Corpus corpus, Plata plata){
+        this.corpus = corpus;
+        this.plata = plata;
+    }
+
+    void print(){
+        System.out.println("Компьютер состоит из комплектующих:");
+        corpus.print();
+        plata.print();
+        System.out.println();
+        System.out.println();
+    }
+}
+
+class Corpus{
+    final String material;
+    final String size;
+    final String color;
+
+    public Corpus(String material, String size, String color){
+        this.material = material;
+        this.size = size;
+        this.color = color;
+    }
+
+    void print(){
+        System.out.println("Материал корпуса " + material + ", " + size + " размер, цвет " + color);
+    }
+
+}
+class Plata{
+    final String manufacter;
+    final String model;
+
+    public Plata(String manufacter, String model) {
+        this.manufacter = manufacter;
+        this.model = model;
+    }
+
+    void print(){
+        System.out.println("Использована плата от производителя " + manufacter + ", модель " + model);
+    }
+}
