@@ -1,0 +1,129 @@
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+	Krest krest = new Krest();                  //Создаем класс
+
+    krest.print();                            //Вывод массива
+    krest.checkCombo();                       //Поиск комбинаций
+    }
+}
+
+class Krest{
+    private final int[][] mytable;
+    private final char[] symbols = {'O','X'};
+
+    public Krest(){                           //Конструктор класса
+        mytable = createTable();
+
+    }
+
+    int[][] transpon(int[][] matrix){             //метод для транспонирования квадратной матрицы
+        int size = matrix.length;
+        int[][] newTable = new int[size][size];
+        for (int i = 0;i<size;i++){
+            for(int j=0;j<size;j++){
+                newTable[j][i] = matrix[i][j];
+            }
+        }
+        return newTable;
+    }
+
+    boolean checkLine(int[] line){                    //метод проверки линии на одинаковые символы
+        for(int i=0; i<line.length-1;i++){
+            if(line[i] != line[i+1])
+                return false;
+        }
+        return true;
+    }
+
+    int[] checkDiag(int[][] matrix){                  //метод определения комбинации в диагоналях
+        int size = matrix.length;
+        int[] result = {1,1};
+
+        int check = 0;
+        for(int i = 0; i<size-1;i++){
+            if(matrix[i][i] != matrix[i+1][i+1])
+                result[0] = 0;
+            if(matrix[size-i-1][i] != matrix[size - i -2][i+1])
+                result[1] = 0;
+        }
+        return result;
+    }
+
+    void checkCombo(){                                              //метод поиска и вывода на экран комбинаций
+        int[][] transTable = transpon(mytable);
+        boolean combo = false;
+        for(int i = 0; i<3;i++){
+            if(checkLine(mytable[i])) {
+                System.out.println("Комбинация " + symbols[mytable[i][0]] + " в " + (i + 1) + " строке");
+                combo = true;
+            }
+            if(checkLine(transTable[i])) {
+                System.out.println("Комбинация " + symbols[transTable[i][0]] + " в " + (i + 1) + " столбце");
+                combo = true;
+            }
+        }
+        int[] diag = checkDiag(mytable);
+        for(int i = 0; i<2;i++) {
+            if (diag[i] > 0) {
+                combo = true;
+                System.out.println("Комбинация " + symbols[mytable[1][1]] + " в " + (i + 1) + " диагонали");
+            }
+        }
+
+        if(!combo)
+            System.out.println("Комбинаций не выявлено");
+
+    }
+
+
+
+    void print(){                                                   //метод вывода таблицы на экран
+
+        for(int i=0;i<3;i++){
+            for(int j = 0; j< 3; j++){
+                System.out.print(symbols[mytable[i][j]] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private int[][] createTable(){                                //заполнение массива символами
+        int[][] table = new int[3][3];
+        int counterNull = 0;
+        int counterKrest = 0;
+
+        for(int i=0;i<3;i++){
+            for(int j = 0;j<3; j++){
+                int temp = (int)(Math.random()*100);
+                if(temp > 50) {
+                    table[i][j] = 1;
+                    counterKrest++;
+
+                    if(counterKrest-counterNull > 1){             //Проверка соблюдения правил игры в крестики-нолики, а именно очередности хода
+                        table[i][j] = 0;
+                        counterKrest--;
+                        counterNull++;
+                    }
+
+                }
+                else{
+                    table[i][j] = 0;
+                    counterNull++;
+
+                    if(counterNull - counterKrest > 1) {          //Проверка соблюдения правил игры в крестики-нолики, а именно очередности хода
+                        table[i][j] = 1;
+                        counterNull--;
+                        counterKrest++;
+                    }
+                }
+            }
+        }
+        return table;
+    }
+}
+
+
+

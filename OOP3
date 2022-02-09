@@ -1,0 +1,120 @@
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+	    Transport auto = new Car(60, 100);
+        Transport bike = new Bike(70, 250);
+        Transport track = new Track(30, 40);
+
+        auto.printInfo();
+        bike.brake();
+        track.accelerate();
+        track.accelerate();
+        auto.accelerate();
+        auto.turnLeft();
+        bike.turnRigth();
+        bike.turnRigth();
+        track.turnRigth();
+        auto.brake();
+        bike.accelerate();
+        auto.printInfo();
+        bike.printInfo();
+        track.printInfo();
+
+    }
+}
+class Car extends Auto{
+    private static final String name = "Автомобиль";
+
+    Car(int acceleration, int maxSpeed) {
+        super(acceleration, maxSpeed, name);
+    }
+}
+
+class Bike extends Auto{
+    private static final String name = "Мотоцикл";
+
+    Bike(int acceleration, int maxSpeed) {
+        super(acceleration, maxSpeed, name);
+    }
+}
+
+class Track extends Auto{
+    private static final String name = "Трактор";
+
+    Track(int acceleration, int maxSpeed) {
+        super(acceleration, maxSpeed, name);
+    }
+}
+
+class Auto implements Transport{
+    int speed = 0, acceleration, move = 0, maxSpeed;
+    final String[] rotation = Transport.rotate;
+    private final String name;
+
+
+    Auto(int acceleration, int maxSpeed, String name){
+        this.acceleration = acceleration;
+        this.maxSpeed = maxSpeed;
+        this.name = name;
+    }
+
+    public void printInfo(){
+        int max = maxSpeed;
+        if(speed == 0) {
+            System.out.println(name + " стоит, направлен " + rotation[move]);
+        }else if(speed == maxSpeed) {
+            System.out.println(name + " движется с максимальной скоростью в " + speed + " км в час " + rotation[move]);
+        }else {
+            System.out.println(name + " движется со скоростью " + speed + " км в час " + rotation[move]);
+        }
+    }
+
+    @Override
+    public void turnLeft() {
+        move--;
+        if(move < 0)
+            move = 3;
+        System.out.println(name + " повернул налево");
+    }
+
+    @Override
+    public void turnRigth() {
+        move++;
+        if(move>3)
+            move = 0;
+        System.out.println(name + " повернул направо");
+    }
+
+    @Override
+    public void accelerate() {
+        speed+= acceleration;
+        if(speed>maxSpeed) {
+            speed = maxSpeed;
+            System.out.println(name + " достиг максимальной скорости");
+        }else
+            System.out.println(name + " разогнался");
+    }
+
+    @Override
+    public void brake() {
+        speed -= acceleration;
+        if(speed < 0){
+            speed = 0;
+            System.out.println(name + " остановился");
+        }else
+            System.out.println(name + " затормозил");
+    }
+}
+interface Transport{
+    int speed = 0;
+    String[] rotate = {"вверх","направо","вниз","влево"};
+
+    void turnLeft();
+    void turnRigth();
+    void accelerate();
+    void brake();
+
+    void printInfo();
+}

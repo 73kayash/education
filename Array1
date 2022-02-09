@@ -1,4 +1,4 @@
-public class Main
+public class Main  //сортировка массивов
 {
 	public static void main(String[] args) {
 	    final int  size;
@@ -65,3 +65,4 @@ class ArrayForSort
         ArrayPrint(pasteArray, sizeArray);
     }
 }
+
